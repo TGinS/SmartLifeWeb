@@ -1,0 +1,4 @@
+test:
+  adapter: postgresql
+  database: smart_life_web_test
+  username: postgres

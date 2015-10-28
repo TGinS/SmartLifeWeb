@@ -1,0 +1,23 @@
+language: ruby
+rvm:
+- 2.2.3
+sudo: false
+bundler_args: "--with test"
+cache: bundler
+before_script:
+- cp config/database.travis.yml config/database.yml
+- bundle exec rake db:create RAILS_ENV=test
+- bundle exec rake db:migrate RAILS_ENV=test
+- bundle exec rake db:seed RAILS_ENV=test
+script:
+- bundle exec rspec
+notifications:
+  slack: yuhashilab:u8zHzlq5jxOZ8uUFeNKfAWtL
+deploy:
+  provider: heroku
+  api_key:
+    secure: L1f1RYnAt7kFDMnYEZalIIpEVycmPgQZFGz6NgkaHLITZL7v51YLFC/ByG9M5I0fbCXYNkNEiuH33G3V1W4uyeEie3mqznN/pJ1TEw16WXPiTzyhJ64lcvQ67UHZpCFTy7jBDOnVIwULmaNeufZyos2n4YlUQmOllN5xLuD2pwixTzDUbJGcSisWs19SLnQzZ7DeCd8MmWjZtFBGaENUK2+sV98ts1HtAJCYbG48SdQLxIIRMxob9e8JJX2xwojF7C1mK2S1wT1oHLrCoMk4kE90deEj4qM2KFbWRGDzm6qBJxExLzcBNoq6AYu6KFg3cuV7erJ/dwa0N6fSSAfbdHjAvZYceVGpq6Jj4qgiVQ+RVAZrQQCL3kVvSrMadZVyXKC+whrykbTiJMR2xSua4HcMR+ZrquUYPnEydxgbfQM8h6EvUbjiWJ7/d/9EmY4MriodnS2pyoQkHsqeEgNFgmgSFWPeFJkqMf0grphVWMYH5a1eSSN5ZjZPd+ktSl1o7krnOjX4W9g6fNAiwpZknLxSAlPVX/jgl1Sg048aUsPKT4StiWSbnEXxMiicZIvSdwn980MrLOpjDZD2l2Jn2R7KzOQYVimhqM/esVcEdmFFF6oVoCKWAyoOevRGW0ZRdVyM/IOwPNyXFcGW1QIxqCbAMnm/rxNPfAfkJVaHYXA=
+  run: "rake db:migrate"
+  app: smart-life-web
+  on:
+    repo: TaigaK/SmartLifeWeb
