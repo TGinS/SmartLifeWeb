@@ -2,7 +2,7 @@ language: ruby
 rvm:
 - 2.1.5
 sudo: false
-bundler_args: "--with test"
+bundler_args: "--without production"
 cache: bundler
 before_script:
 - cp config/database.travis.yml config/database.yml
