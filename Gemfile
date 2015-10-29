@@ -45,6 +45,7 @@ group :development, :test do
   gem 'spring'
 
   gem 'rspec-rails'
+  gem 'factory_girl_rails'
   gem 'simplecov', :require => false
   gem 'coveralls', :require => false
 
