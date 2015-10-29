@@ -1,21 +1,54 @@
-<nav>
-  <div class="nav-wrapper teal accent-4">
-    <a class="brand-logo">SmartLifeWeb</a>
-    <a href="#" data-activates="mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-    <ul class="right hide-on-med-and-down">
-      <li><a><i class="material-icons left">room</i>Map</a></li>
-      <li><a><i class="material-icons left">search</i>Search</a></li>
-      <li><a><i class="material-icons left">stars</i>Ranking</a></li>
-      <li style="padding: 0px 10px 0px 10px;"><button class="waves-effect waves-light btn light-blue darken-3">Login</button></li>
-    </ul>
-    <ul class="side-nav" id="mobile">
-      <li><a><i class="material-icons left">room</i>Map</a></li>
-      <li><a><i class="material-icons left">search</i>Search</a></li>
-      <li><a><i class="material-icons left">stars</i>Ranking</a></li>
-      <li><button class="waves-effect waves-light btn light-blue darken-3">Login</button></li>
-    </ul>
-  </div>
-</nav>
+<% if user_signed_in? %>
+    <nav>
+      <div class="nav-wrapper teal accent-4">
+        <a class="brand-logo">SmartLifeWeb</a>
+        <a href="#" data-activates="mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+          <li><a><i class="material-icons left">room</i>Map</a></li>
+          <li><a><i class="material-icons left">search</i>Search</a></li>
+          <li><a><i class="material-icons left">stars</i>Ranking</a></li>
+          <li style="padding: 0px 10px 0px 10px;">
+
+          </li>
+        </ul>
+        <ul class="side-nav" id="mobile">
+          <li><a><i class="material-icons left">room</i>Map</a></li>
+          <li><a><i class="material-icons left">search</i>Search</a></li>
+          <li><a><i class="material-icons left">stars</i>Ranking</a></li>
+          <li>
+
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+<% else %>
+    <nav>
+      <div class="nav-wrapper teal accent-4">
+        <a class="brand-logo">SmartLifeWeb</a>
+        <a href="#" data-activates="mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+          <li><a><i class="material-icons left">room</i>Map</a></li>
+          <li><a><i class="material-icons left">search</i>Search</a></li>
+          <li><a><i class="material-icons left">stars</i>Ranking</a></li>
+          <li style="padding: 0px 10px 0px 10px;">
+            <%= link_to new_user_session_path do %>
+                <button class="waves-effect waves-light btn light-blue darken-3">Login</button>
+            <% end %>      </li>
+        </ul>
+        <ul class="side-nav" id="mobile">
+          <li><a><i class="material-icons left">room</i>Map</a></li>
+          <li><a><i class="material-icons left">search</i>Search</a></li>
+          <li><a><i class="material-icons left">stars</i>Ranking</a></li>
+          <li>
+            <%= link_to new_user_session_path do %>
+                <button class="waves-effect waves-light btn light-blue darken-3">Login</button>
+            <% end %>
+          </li>
+        </ul>
+      </div>
+    </nav>
+<% end %>
 
 <script>
     $(".button-collapse").sideNav();
