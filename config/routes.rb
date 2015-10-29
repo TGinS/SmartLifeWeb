@@ -1,10 +1,9 @@
 Rails.application.routes.draw do
 
   root 'welcome#index'
+  resources :account,              :only => [:index]
 
-  devise_for :users do
-    get '/help',    :on => :collection
-  end
+  devise_for :users
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   # The priority is based upon order of creation: first created -> highest priority.
