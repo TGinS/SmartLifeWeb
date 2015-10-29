@@ -1,2 +1,32 @@
-<h1>Welcome#index</h1>
-<p>Find me in app/views/welcome/index.html.erb</p>
+<div id="map_canvas"></div>
+
+<a class="btn-floating btn-large waves-effect waves-light red modal-trigger" href="#pushpin" style="position: fixed;bottom: 30px;right: 20px"><i class="mdi-content-add"></i></a>
+
+<div id="pushpin" class="modal">
+    <div class="modal-footer">
+      <button class="modal-action modal-close btn waves-effect waves-light" >
+        submit<i class="mdi-content-send right"></i>
+      </button>
+    </div>
+  </div>
+
+<script type="text/javascript">
+    function initialize() {
+        var latlng = new google.maps.LatLng(34.72166180618469, 137.73993516406247);
+        var opts = {
+            zoom: 13,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("map_canvas"), opts);
+    }
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('.modal-trigger').leanModal();
+    });
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+</script>
