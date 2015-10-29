@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
 
   root 'welcome#index'
-  resources :account,              :only => [:index]
+  resources :account,              :only => [:index] do
+    get :edit,    :on => :collection
+  end
 
   devise_for :users
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
