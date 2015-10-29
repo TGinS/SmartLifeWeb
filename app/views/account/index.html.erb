@@ -1,0 +1,12 @@
+<p>
+  logout
+    <%= link_to destroy_user_session_path, :method => :delete do %>
+        <button class="waves-effect waves-light btn red">Logout</button>
+    <% end %>
+</p>
+<p>
+  edit
+  <%= link_to edit_account_index_path do %>
+      <button class="waves-effect waves-light btn red">Edit</button>
+  <% end %>
+</p>
