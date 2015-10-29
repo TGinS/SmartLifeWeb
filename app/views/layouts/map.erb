@@ -11,14 +11,11 @@
   <script src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body onload="initialize()">
 
 <%= render 'layouts/navbar' %>
 
-
-<div class="container">
-  <%= yield %>
-</div>
+<%= yield %>
 
 </body>
 </html>
