@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151029205632) do
+ActiveRecord::Schema.define(version: 20151029231732) do
+
+  create_table "invitation_candidates", force: :cascade do |t|
+    t.integer  "invitation_id"
+    t.integer  "provision_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "invitation_candidates", ["invitation_id"], name: "index_invitation_candidates_on_invitation_id"
+  add_index "invitation_candidates", ["provision_id"], name: "index_invitation_candidates_on_provision_id"
 
   create_table "invitations", force: :cascade do |t|
     t.string   "name"
@@ -27,6 +37,16 @@ ActiveRecord::Schema.define(version: 20151029205632) do
 
   add_index "invitations", ["provision_id"], name: "index_invitations_on_provision_id"
   add_index "invitations", ["user_id"], name: "index_invitations_on_user_id"
+
+  create_table "provision_candidates", force: :cascade do |t|
+    t.integer  "provision_id"
+    t.integer  "invitation_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "provision_candidates", ["invitation_id"], name: "index_provision_candidates_on_invitation_id"
+  add_index "provision_candidates", ["provision_id"], name: "index_provision_candidates_on_provision_id"
 
   create_table "provisions", force: :cascade do |t|
     t.string   "name"

@@ -33,6 +33,8 @@ RailsAdmin.config do |config|
   end
 
   config.model Invitation do
+    label "募集"
+    label_plural "募集"
     list do
       field :name do
         label "名前"
@@ -81,7 +83,31 @@ RailsAdmin.config do |config|
     end
   end
 
+  config.model InvitationCandidate do
+    label "募集への候補"
+    label_plural "募集への候補"
+    list do
+      field :invitation do
+        label "募集"
+      end
+      field :provision do
+        label "候補一覧"
+      end
+    end
+    edit do
+      field :invitation do
+        label "募集"
+      end
+      field :provision do
+        label "候補一覧"
+      end
+    end
+
+  end
+
   config.model Provision do
+    label "提供"
+    label_plural "提供"
     list do
       field :name do
         label "名前"
@@ -126,6 +152,27 @@ RailsAdmin.config do |config|
       end
       field :ended do
         label "削除日時"
+      end
+    end
+  end
+
+  config.model ProvisionCandidate do
+    label "提供への候補"
+    label_plural "提供への候補"
+    list do
+      field :provision do
+        label "提供"
+      end
+      field :invitation do
+        label "候補一覧"
+      end
+    end
+    edit do
+      field :provision do
+        label "提供"
+      end
+      field :invitation do
+        label "候補一覧"
       end
     end
   end
