@@ -105,6 +105,27 @@ RailsAdmin.config do |config|
 
   end
 
+  config.model InvitationCandidateVote do
+    label "募集候補への投票"
+    label_plural "募集候補への投票"
+    list do
+      field :invitation_candidate do
+        label "募集候補No."
+      end
+      field :user do
+        label "ユーザ"
+      end
+    end
+    edit do
+      field :invitation_candidate do
+        label "募集候補No."
+      end
+      field :user do
+        label "ユーザ"
+      end
+    end
+  end
+
   config.model Provision do
     label "提供"
     label_plural "提供"
@@ -177,7 +198,30 @@ RailsAdmin.config do |config|
     end
   end
 
+  config.model ProvisionCandidateVote do
+    label "提供候補への投票"
+    label_plural "提供候補への投票"
+    list do
+      field :provision_candidate do
+        label "提供候補No."
+      end
+      field :user do
+        label "ユーザ"
+      end
+    end
+    edit do
+      field :provision_candidate do
+        label "提供候補No."
+      end
+      field :user do
+        label "ユーザ"
+      end
+    end
+  end
+
   config.model User do
+    label "ユーザ"
+    label_plural "ユーザ"
     list do
       field :email do
         label "メールアドレス"
