@@ -11,7 +11,77 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151029153551) do
+ActiveRecord::Schema.define(version: 20151102120009) do
+
+  create_table "invitation_candidate_votes", force: :cascade do |t|
+    t.integer  "invitation_candidate_id"
+    t.integer  "user_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "invitation_candidate_votes", ["invitation_candidate_id"], name: "index_invitation_candidate_votes_on_invitation_candidate_id"
+  add_index "invitation_candidate_votes", ["user_id"], name: "index_invitation_candidate_votes_on_user_id"
+
+  create_table "invitation_candidates", force: :cascade do |t|
+    t.integer  "invitation_id"
+    t.integer  "provision_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "invitation_candidates", ["invitation_id"], name: "index_invitation_candidates_on_invitation_id"
+  add_index "invitation_candidates", ["provision_id"], name: "index_invitation_candidates_on_provision_id"
+
+  create_table "invitations", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "user_id"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.text     "note"
+    t.integer  "provision_id"
+    t.date     "ended"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "invitations", ["provision_id"], name: "index_invitations_on_provision_id"
+  add_index "invitations", ["user_id"], name: "index_invitations_on_user_id"
+
+  create_table "provision_candidate_votes", force: :cascade do |t|
+    t.integer  "provision_candidate_id"
+    t.integer  "user_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "provision_candidate_votes", ["provision_candidate_id"], name: "index_provision_candidate_votes_on_provision_candidate_id"
+  add_index "provision_candidate_votes", ["user_id"], name: "index_provision_candidate_votes_on_user_id"
+
+  create_table "provision_candidates", force: :cascade do |t|
+    t.integer  "provision_id"
+    t.integer  "invitation_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "provision_candidates", ["invitation_id"], name: "index_provision_candidates_on_invitation_id"
+  add_index "provision_candidates", ["provision_id"], name: "index_provision_candidates_on_provision_id"
+
+  create_table "provisions", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "user_id"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.text     "note"
+    t.integer  "invitation_id"
+    t.date     "ended"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "provisions", ["invitation_id"], name: "index_provisions_on_invitation_id"
+  add_index "provisions", ["user_id"], name: "index_provisions_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
