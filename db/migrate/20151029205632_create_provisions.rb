@@ -7,7 +7,7 @@ class CreateProvisions < ActiveRecord::Migration
       t.float       :longitude
       t.text        :note
       t.references  :invitation,  index: true
-      t.date        :ended,       :default => ""
+      t.date        :ended
 
       t.timestamps null: false
     end

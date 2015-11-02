@@ -7,7 +7,7 @@ class CreateInvitations < ActiveRecord::Migration
       t.float       :longitude
       t.text        :note
       t.references  :provision,  index: true
-      t.date        :ended,      :default => ""
+      t.date        :ended
 
       t.timestamps null: false
     end
