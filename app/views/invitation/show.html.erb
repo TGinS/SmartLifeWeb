@@ -16,9 +16,10 @@
 <div class="divider"></div>
 <div class="section">
   <h5>提供候補</h5>
-  <p>
-    <%@invitation_candidates.each_with_index do |candidate, i| %>
+  <%@invitation_candidates.each_with_index do |candidate, i| %>
+      <p>
         <%= i + 1 %>:<%= link_to candidate.name, provision_path(candidate.provision_id) %>
-    <% end %>
-  </p>
+        <%= candidate.vote %>
+      </p>
+  <% end %>
 </div>
