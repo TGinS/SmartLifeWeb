@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
 
   root 'welcome#index'
-  resources :invitation,           :only => [:show] do
+  resources :invitation,           :only => [:index, :show] do
   end
-  resources :provision,            :only => [:show] do
+  resources :provision,            :only => [:index, :show] do
   end
   resources :account,              :only => [:index] do
     get :edit,    :on => :collection
