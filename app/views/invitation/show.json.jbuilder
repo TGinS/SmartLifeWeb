@@ -8,7 +8,7 @@ json.contract @invitation.provision
 json.end_date @invitation.ended
 json.candidates do
   @invitation_candidates.each do |candidate|
-    json.id candidate.candidate_id
+    json.id candidate.candidates_id
     json.name candidate.name
     json.vote candidate.vote
     json.url provision_url(candidate.provisions_id)
