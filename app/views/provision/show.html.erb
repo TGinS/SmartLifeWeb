@@ -1,2 +1,25 @@
-<h1>Provision#show</h1>
-<p>Find me in app/views/provision/show.html.erb</p>
+<div class="divider"></div>
+<div class="section">
+  <h5>名前</h5>
+  <p><%= @provision.name %></p>
+</div>
+<div class="divider"></div>
+<div class="section">
+  <h5>提供者名</h5>
+  <p><%= @provision.user_email %></p>
+</div>
+<div class="divider"></div>
+<div class="section">
+  <h5>メモ</h5>
+  <p><%= @provision.note %></p>
+</div>
+<div class="divider"></div>
+<div class="section">
+  <h5>募集候補</h5>
+  <%@provision_candidates.each_with_index do |candidate, i| %>
+      <p>
+        <%= i + 1 %>:<%= link_to candidate.name, invitation_path(candidate.invitation_id) %>
+        <%= candidate.vote %>
+      </p>
+  <% end %>
+</div>
