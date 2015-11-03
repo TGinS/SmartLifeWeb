@@ -1,14 +1,17 @@
+
 <div id="map_canvas"></div>
 
-<a class="btn-floating btn-large waves-effect waves-light red modal-trigger" href="#pushpin" style="position: fixed;bottom: 30px;right: 20px"><i class="mdi-content-add"></i></a>
+<a class="btn-floating btn-large waves-effect waves-light red modal-trigger" href="#pushpin" style="position: fixed;bottom: 40px;right: 45px">
+  <i class="mdi-content-add"></i>
+</a>
 
 <div id="pushpin" class="modal">
-    <div class="modal-footer">
-      <button class="modal-action modal-close btn waves-effect waves-light" >
-        submit<i class="mdi-content-send right"></i>
-      </button>
-    </div>
+  <div class="modal-footer">
+    <button class="modal-action modal-close btn waves-effect waves-light" >
+      submit<i class="mdi-content-send right"></i>
+    </button>
   </div>
+</div>
 
 <script type="text/javascript">
     function initialize() {
@@ -16,9 +19,181 @@
         var opts = {
             zoom: 13,
             center: latlng,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            navigationControlOptions: {
+                position: google.maps.ControlPosition.TOP_RIGHT
+            },
+            scaleControlOptions: {
+                position: google.maps.ControlPosition.TOP_LEFT
+            }
         };
         var map = new google.maps.Map(document.getElementById("map_canvas"), opts);
+
+        // set style options
+        var styleOptions =　[
+            {
+                "featureType": "landscape",
+                "stylers": [
+                    {
+                        "saturation": -100
+                    },
+                    {
+                        "lightness": 65
+                    },
+                    {
+                        "visibility": "on"
+                    }
+                ]
+            },
+            {
+                "featureType": "poi",
+                "stylers": [
+                    {
+                        "saturation": -100
+                    },
+                    {
+                        "lightness": 51
+                    },
+                    {
+                        "visibility": "simplified"
+                    }
+                ]
+            },
+            {
+                "featureType": "road.highway",
+                "stylers": [
+                    {
+                        "saturation": -100
+                    },
+                    {
+                        "visibility": "simplified"
+                    }
+                ]
+            },
+            {
+                "featureType": "road.arterial",
+                "stylers": [
+                    {
+                        "saturation": -100
+                    },
+                    {
+                        "lightness": 30
+                    },
+                    {
+                        "visibility": "on"
+                    }
+                ]
+            },
+            {
+                "featureType": "road.local",
+                "stylers": [
+                    {
+                        "saturation": -100
+                    },
+                    {
+                        "lightness": 40
+                    },
+                    {
+                        "visibility": "on"
+                    }
+                ]
+            },
+            {
+                "featureType": "transit",
+                "stylers": [
+                    {
+                        "saturation": -100
+                    },
+                    {
+                        "visibility": "simplified"
+                    }
+                ]
+            },
+            {
+                "featureType": "administrative.province",
+                "stylers": [
+                    {
+                        "visibility": "off"
+                    }
+                ]
+            },
+            {
+                "featureType": "water",
+                "elementType": "labels",
+                "stylers": [
+                    {
+                        "visibility": "on"
+                    },
+                    {
+                        "lightness": -25
+                    },
+                    {
+                        "saturation": -100
+                    }
+                ]
+            },
+            {
+                "featureType": "water",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "hue": "#ffff00"
+                    },
+                    {
+                        "lightness": -25
+                    },
+                    {
+                        "saturation": -97
+                    }
+                ]
+            }
+        ]
+        var styledMapOptions = { name: 'NCF'}
+        var type = new google.maps.StyledMapType(styleOptions, styledMapOptions);
+        map.mapTypes.set('map', type);
+        map.setMapTypeId('map');
+
+        // window & marker
+        var window = new google.maps.InfoWindow();
+        <% @invitations.each_with_index do |invitation,i| %>
+        var invitation<%= i %> = new google.maps.Marker({
+            position: new google.maps.LatLng(<%= invitation.latitude %>, <%= invitation.longitude %>),
+            draggable: false,
+            map: map,
+            animation: google.maps.Animation.DROP
+        });
+        var invitation_content<%= i %> = '<p>' +
+                '種類: 募集<br>' +
+                '名前: <%= invitation.name %><br>' +
+                '募集者: <%= invitation.user_email %><br>' +
+                'メモ: <%= invitation.note %>' +
+                '<br><%= link_to "詳細", invitation_path(invitation.id) %>' +
+                '</p>';
+        google.maps.event.addListener(invitation<%= i %>, "click", function(){
+            window.setContent(invitation_content<%= i %>);
+            window.open(map, invitation<%= i %>);
+        });
+        <% end %>
+        <% @provisions.each_with_index do |provision,i| %>
+        var provision<%= i %> = new google.maps.Marker({
+            position: new google.maps.LatLng(<%= provision.latitude %>, <%= provision.longitude %>),
+            draggable: false,
+            map: map,
+            animation: google.maps.Animation.DROP
+        });
+        var provision_content<%= i %> = '<p>' +
+                '種類: 提供<br>' +
+                '名前: <%= provision.name %><br>' +
+                '提供者: <%= provision.user_email %><br>' +
+                'メモ: <%= provision.note %><br>' +
+                '<br><%= link_to "詳細", provision_path(provision.id) %>' +
+                '</p>';
+        google.maps.event.addListener(provision<%= i %>, "click", function(){
+            window.setContent(provision_content<%= i %>);
+            window.open(map, provision<%= i %>);
+        });
+        <% end %>
+
     }
 </script>
 

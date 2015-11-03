@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
 
   root 'welcome#index'
+  resources :invitation,           :only => [:show] do
+  end
+  resources :provision,            :only => [:show] do
+  end
   resources :account,              :only => [:index] do
     get :edit,    :on => :collection
   end
