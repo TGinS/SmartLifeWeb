@@ -18,7 +18,7 @@
   <h5>提供候補</h5>
   <%@invitation_candidates.each_with_index do |candidate, i| %>
       <p>
-        <%= i + 1 %>:<%= link_to candidate.name, provision_path(candidate.provision_id) %>
+        <%= i + 1 %>:<%= link_to candidate.name, provision_path(candidate.provisions_id) %>
         <%= candidate.vote %>
       </p>
   <% end %>
