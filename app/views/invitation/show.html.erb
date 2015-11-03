@@ -1,2 +1,24 @@
-<h1>Invitation#show</h1>
-<p>Find me in app/views/invitation/show.html.erb</p>
+<div class="divider"></div>
+<div class="section">
+  <h5>名前</h5>
+  <p><%= @invitation.name %></p>
+</div>
+<div class="divider"></div>
+<div class="section">
+  <h5>提供者名</h5>
+  <p><%= @invitation.user_email %></p>
+</div>
+<div class="divider"></div>
+<div class="section">
+  <h5>メモ</h5>
+  <p><%= @invitation.note %></p>
+</div>
+<div class="divider"></div>
+<div class="section">
+  <h5>提供候補</h5>
+  <p>
+    <%@invitation_candidates.each_with_index do |candidate, i| %>
+        <%= i + 1 %>:<%= link_to candidate.name, provision_path(candidate.provision_id) %>
+    <% end %>
+  </p>
+</div>
