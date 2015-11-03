@@ -11,5 +11,6 @@ json.candidates do
     json.id candidate.candidate_id
     json.name candidate.name
     json.vote candidate.vote
+    json.url invitation_url(candidate.invitations_id)
   end
 end

@@ -7,4 +7,5 @@ json.(@invitations) do |invitation|
   json.note invitation.note
   json.contract invitation.provision
   json.end_date invitation.ended
+  json.url invitation_url(invitation)
 end
