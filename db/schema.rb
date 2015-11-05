@@ -11,82 +11,82 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151102120009) do
+ActiveRecord::Schema.define(version: 20151105054030) do
 
-  create_table "invitation_candidate_votes", force: :cascade do |t|
-    t.integer  "invitation_candidate_id"
-    t.integer  "user_id"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
-
-  add_index "invitation_candidate_votes", ["invitation_candidate_id"], name: "index_invitation_candidate_votes_on_invitation_candidate_id"
-  add_index "invitation_candidate_votes", ["user_id"], name: "index_invitation_candidate_votes_on_user_id"
-
-  create_table "invitation_candidates", force: :cascade do |t|
-    t.integer  "invitation_id"
-    t.integer  "provision_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-  end
-
-  add_index "invitation_candidates", ["invitation_id"], name: "index_invitation_candidates_on_invitation_id"
-  add_index "invitation_candidates", ["provision_id"], name: "index_invitation_candidates_on_provision_id"
-
-  create_table "invitations", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "user_id"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.text     "note"
-    t.integer  "provision_id"
-    t.date     "ended"
+  create_table "candidate_votes", force: :cascade do |t|
+    t.integer  "candidate_id", null: false
+    t.integer  "user_id",      null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
 
-  add_index "invitations", ["provision_id"], name: "index_invitations_on_provision_id"
-  add_index "invitations", ["user_id"], name: "index_invitations_on_user_id"
+  add_index "candidate_votes", ["candidate_id"], name: "index_candidate_votes_on_candidate_id"
+  add_index "candidate_votes", ["user_id"], name: "index_candidate_votes_on_user_id"
 
-  create_table "provision_candidate_votes", force: :cascade do |t|
-    t.integer  "provision_candidate_id"
-    t.integer  "user_id"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+  create_table "candidates", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "provision_id", null: false
+    t.integer  "user_id",      null: false
+    t.text     "note"
+    t.date     "end_date"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
-  add_index "provision_candidate_votes", ["provision_candidate_id"], name: "index_provision_candidate_votes_on_provision_candidate_id"
-  add_index "provision_candidate_votes", ["user_id"], name: "index_provision_candidate_votes_on_user_id"
+  add_index "candidates", ["provision_id"], name: "index_candidates_on_provision_id"
+  add_index "candidates", ["user_id"], name: "index_candidates_on_user_id"
 
-  create_table "provision_candidates", force: :cascade do |t|
-    t.integer  "provision_id"
-    t.integer  "invitation_id"
+  create_table "invitation_types", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "invitation_votes", force: :cascade do |t|
+    t.integer  "invitation_id", null: false
+    t.integer  "user_id",       null: false
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
 
-  add_index "provision_candidates", ["invitation_id"], name: "index_provision_candidates_on_invitation_id"
-  add_index "provision_candidates", ["provision_id"], name: "index_provision_candidates_on_provision_id"
+  add_index "invitation_votes", ["invitation_id"], name: "index_invitation_votes_on_invitation_id"
+  add_index "invitation_votes", ["user_id"], name: "index_invitation_votes_on_user_id"
+
+  create_table "invitations", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "invitation_type_id", null: false
+    t.integer  "user_id",            null: false
+    t.float    "latitude",           null: false
+    t.float    "longitude",          null: false
+    t.text     "note"
+    t.date     "end_date"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "invitations", ["invitation_type_id"], name: "index_invitations_on_invitation_type_id"
+  add_index "invitations", ["user_id"], name: "index_invitations_on_user_id"
 
   create_table "provisions", force: :cascade do |t|
     t.string   "name"
-    t.integer  "user_id"
-    t.float    "latitude"
-    t.float    "longitude"
+    t.integer  "user_id",    null: false
+    t.float    "latitude",   null: false
+    t.float    "longitude",  null: false
     t.text     "note"
-    t.integer  "invitation_id"
-    t.date     "ended"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.date     "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  add_index "provisions", ["invitation_id"], name: "index_provisions_on_invitation_id"
   add_index "provisions", ["user_id"], name: "index_provisions_on_user_id"
 
   create_table "users", force: :cascade do |t|
+    t.string   "name",                   default: "",    null: false
     t.string   "email",                  default: "",    null: false
+    t.string   "website",                default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
     t.boolean  "admin",                  default: false, null: false
+    t.text     "note",                   default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

@@ -165,7 +165,7 @@
         var invitation_content<%= i %> = '<p>' +
                 '種類: 募集<br>' +
                 '名前: <%= invitation.name %><br>' +
-                '募集者: <%= invitation.user_email %><br>' +
+                '募集者: <%= invitation.user_name %><br>' +
                 'メモ: <%= invitation.note %>' +
                 '<br><%= link_to "詳細", invitation_path(invitation.id) %>' +
                 '</p>';
@@ -184,7 +184,7 @@
         var provision_content<%= i %> = '<p>' +
                 '種類: 提供<br>' +
                 '名前: <%= provision.name %><br>' +
-                '提供者: <%= provision.user_email %><br>' +
+                '提供者: <%= provision.user_name %><br>' +
                 'メモ: <%= provision.note %><br>' +
                 '<br><%= link_to "詳細", provision_path(provision.id) %>' +
                 '</p>';
