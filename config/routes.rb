@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'candidate/index'
+
+  get 'candidate/show'
+
   root 'welcome#index'
   resources :invitation,           :only => [:show] do
   end

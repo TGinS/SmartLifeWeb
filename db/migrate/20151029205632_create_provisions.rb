@@ -6,7 +6,6 @@ class CreateProvisions < ActiveRecord::Migration
       t.float       :latitude
       t.float       :longitude
       t.text        :note
-      t.references  :invitation,  index: true
       t.date        :ended
 
       t.timestamps null: false
