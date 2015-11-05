@@ -1,24 +1,24 @@
 <div class="divider"></div>
 <div class="section">
   <h5>名前</h5>
-  <p><%= @provision.name %></p>
+  <p><%= @invitation.name %></p>
 </div>
 <div class="divider"></div>
 <div class="section">
   <h5>提供者名</h5>
-  <p><%= @provision.user_email %></p>
+  <p><%= @invitation.user_email %></p>
 </div>
 <div class="divider"></div>
 <div class="section">
   <h5>メモ</h5>
-  <p><%= @provision.note %></p>
+  <p><%= @invitation.note %></p>
 </div>
 <div class="divider"></div>
 <div class="section">
-  <h5>募集候補</h5>
-  <%@provision_candidates.each_with_index do |candidate, i| %>
+  <h5>提供候補</h5>
+  <%@invitation_candidates.each_with_index do |candidate, i| %>
       <p>
-        <%= i + 1 %>:<%= link_to candidate.name, invitation_path(candidate.invitations_id) %>
+        <%= i + 1 %>:<%= link_to candidate.name, provision_path(candidate.provisions_id) %>
         <%= candidate.vote %>
       </p>
   <% end %>
