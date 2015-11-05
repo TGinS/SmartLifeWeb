@@ -6,4 +6,10 @@ json.provision do
   json.longitude  @provision.longitude
   json.note       @provision.note
   json.end_date   @provision.end_date
+  json.candidates @candidates.each do |candidate|
+    json.id         candidate.id
+    json.name       candidate.name
+    json.vote       candidate.vote
+    json.url        candidate_url(candidate)
+  end
 end
