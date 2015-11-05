@@ -49,15 +49,35 @@ RailsAdmin.config do |config|
         label "緯度"
       end
       field :longitude do
-        label "軽度"
+        label "経度"
       end
       field :note do
         label "メモ"
       end
-      field :provision do
-        label "申し込み"
+      field :end_date do
+        label "削除日時"
       end
-      field :ended do
+    end
+    edit do
+      field :name do
+        label "名前"
+      end
+      field :invitation_type do
+        label "募集の種類"
+      end
+      field :user do
+        label "作成者"
+      end
+      field :latitude do
+        label "緯度"
+      end
+      field :longitude do
+        label "経度"
+      end
+      field :note do
+        label "メモ"
+      end
+      field :end_date do
         label "削除日時"
       end
     end
@@ -77,12 +97,32 @@ RailsAdmin.config do |config|
         label "緯度"
       end
       field :longitude do
-        label "軽度"
+        label "経度"
       end
       field :note do
         label "メモ"
       end
-      field :ended do
+      field :end_date do
+        label "削除日時"
+      end
+    end
+    edit do
+      field :name do
+        label "名前"
+      end
+      field :user do
+        label "作成者"
+      end
+      field :latitude do
+        label "緯度"
+      end
+      field :longitude do
+        label "経度"
+      end
+      field :note do
+        label "メモ"
+      end
+      field :end_date do
         label "削除日時"
       end
     end
@@ -96,17 +136,90 @@ RailsAdmin.config do |config|
         label "種類"
       end
     end
+      edit do
+        field :name do
+          label "種類"
+        end
+    end
   end
 
   config.model InvitationVote do
-    label "投票"
-    label_plural "投票"
+    label "募集への投票"
+    label_plural "募集への投票"
     list do
       field :invitation do
-        label "募集No."
+        label "募集"
       end
       field :user do
-        label "投票者"
+        label "ユーザ"
+      end
+    end
+      edit do
+        field :invitation do
+          label "募集"
+        end
+      field :user do
+        label "ユーザ"
+      end
+    end
+  end
+
+  config.model Candidate do
+    label "候補"
+    label_plural "候補"
+    list do
+      field :name do
+        label "名前"
+      end
+      field :provision do
+        label "応募先"
+      end
+      field :user do
+        label "作成者"
+      end
+      field :note do
+        label "メモ"
+      end
+      field :end_date do
+        label "削除日時"
+      end
+    end
+    edit do
+      field :name do
+        label "名前"
+      end
+      field :provision do
+        label "応募先"
+      end
+      field :user do
+        label "作成者"
+      end
+      field :note do
+        label "メモ"
+      end
+      field :end_date do
+        label "削除日時"
+      end
+    end
+  end
+
+  config.model CandidateVote do
+    label "候補への投票"
+    label_plural "候補への投票"
+    list do
+      field :candidate do
+        label "候補"
+      end
+      field :user do
+        label "ユーザ"
+      end
+    end
+    edit do
+      field :candidate do
+        label "候補"
+      end
+      field :user do
+        label "ユーザ"
       end
     end
   end

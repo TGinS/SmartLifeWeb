@@ -1,13 +1,13 @@
 Rails.application.routes.draw do
 
-  get 'candidate/index'
-
-  get 'candidate/show'
-
   root 'welcome#index'
-  resources :invitation,           :only => [:show] do
+  resources :invitation,           :only => [:index,:show] do
   end
-  resources :provision,            :only => [:show] do
+  resources :provision,            :only => [:index,:show] do
+    resources :candidate, params: :provision_id, :only => [:index] do
+    end
+  end
+  resources :candidate,             :only => [:show] do
   end
   resources :account,              :only => [:index] do
     get :edit,    :on => :collection

@@ -14,8 +14,8 @@
 ActiveRecord::Schema.define(version: 20151105054030) do
 
   create_table "candidate_votes", force: :cascade do |t|
-    t.integer  "candidate_id"
-    t.integer  "user_id"
+    t.integer  "candidate_id", null: false
+    t.integer  "user_id",      null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
@@ -25,8 +25,8 @@ ActiveRecord::Schema.define(version: 20151105054030) do
 
   create_table "candidates", force: :cascade do |t|
     t.string   "name"
-    t.integer  "provision_id"
-    t.integer  "user_id"
+    t.integer  "provision_id", null: false
+    t.integer  "user_id",      null: false
     t.text     "note"
     t.date     "end_date"
     t.datetime "created_at",   null: false
@@ -37,14 +37,14 @@ ActiveRecord::Schema.define(version: 20151105054030) do
   add_index "candidates", ["user_id"], name: "index_candidates_on_user_id"
 
   create_table "invitation_types", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "invitation_votes", force: :cascade do |t|
-    t.integer  "invitation_id"
-    t.integer  "user_id"
+    t.integer  "invitation_id", null: false
+    t.integer  "user_id",       null: false
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
@@ -54,25 +54,26 @@ ActiveRecord::Schema.define(version: 20151105054030) do
 
   create_table "invitations", force: :cascade do |t|
     t.string   "name"
-    t.integer  "invitation_type_id"
-    t.integer  "user_id"
-    t.float    "latitude"
-    t.float    "longitude"
+    t.integer  "invitation_type_id", null: false
+    t.integer  "user_id",            null: false
+    t.float    "latitude",           null: false
+    t.float    "longitude",          null: false
     t.text     "note"
     t.date     "end_date"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
   end
 
+  add_index "invitations", ["invitation_type_id"], name: "index_invitations_on_invitation_type_id"
   add_index "invitations", ["user_id"], name: "index_invitations_on_user_id"
 
   create_table "provisions", force: :cascade do |t|
     t.string   "name"
-    t.integer  "user_id"
-    t.float    "latitude"
-    t.float    "longitude"
+    t.integer  "user_id",    null: false
+    t.float    "latitude",   null: false
+    t.float    "longitude",  null: false
     t.text     "note"
-    t.date     "ended"
+    t.date     "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
