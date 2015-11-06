@@ -1,3 +1,10 @@
+
+<% flash.each do |key, value| %>
+    <script>
+        Materialize.toast("<%= value %>", 4000)
+    </script>
+<% end %>
+
 <p><h2>提供</h2></p>
 <div class="divider"></div>
 <div class="section">
@@ -14,13 +21,88 @@
   <h5>メモ</h5>
   <p><%= @provision.note %></p>
 </div>
-<div class="divider"></div>
-<div class="section">
-  <h5>募集候補</h5>
-  <%@candidates.each_with_index do |candidate, i| %>
-      <p>
-        <%= i + 1 %>:<%= link_to candidate.name, candidate_path(candidate.id) %>
-        <%= candidate.vote %>
-      </p>
-  <% end %>
-</div>
+<% if user_signed_in?  %>
+    <div class="divider"></div>
+    <div class="section">
+      <h5>募集候補</h5>
+      <%@candidates.each_with_index do |candidate| %>
+          <p>
+            <%= link_to candidate.name, candidate_path(candidate.id) %>
+            <%= candidate.vote %>
+            <%= form_for(CandidateVote.new,:url=>{:controller=>'candidate_vote', :action=>'create', :method=>'post'}) do |f| %>
+                <%= f.hidden_field :candidate_id, :value=>candidate.id %>
+                <%= f.hidden_field :user_id, :value=>current_user.id %>
+                <%= f.submit %>
+            <% end %>
+          </p>
+      <% end %>
+    </div>
+    <div class="divider"></div>
+    <div class="section">
+      <h5>応募する</h5>
+      <a class="waves-effect waves-light btn modal-trigger light-blue darken-3" href="#form">応募する</a>
+    </div>
+    <div id="form" class="modal">
+      <%= form_for(Candidate.new,:url=>{:controller=>'candidate', :action=>'create', :method=>'post'}) do |f| %>
+          <div class="modal-content">
+            <div class="row">
+              <div class="input-field col s6">
+                <i class="material-icons prefix">mode_edit</i>
+                <%= f.text_field :name, :id=>"name", :placeholder=>"subject" %>
+                <label for="name">name</label>
+              </div>
+            </div>
+            <%= f.hidden_field :provision_id, :value=>@provision.id %>
+            <%= f.hidden_field :user_id, :value=>current_user.id %>
+            <div class="row">
+              <div class="input-field col s12">
+                <i class="material-icons prefix">mode_edit</i>
+                <%= f.text_area :note, :id=>"note", :placeholder=>"詳細", :class=>"materialize-textarea" %>
+                <label for="note">note</label>
+              </div>
+            </div>
+            <%= f.hidden_field :end_date, :value=>nil %>
+          </div>
+          <div class="modal-footer">
+            <%= f.button class: "modal-action modal-close waves-effect waves-light btn light-blue darken-3" do %>
+                送信<i class="material-icons right">send</i>
+            <% end %>
+          </div>
+      <% end %>
+    </div>
+<% else %>
+    <div class="divider"></div>
+    <div class="section">
+      <h5>募集候補</h5>
+      <%@candidates.each_with_index do |candidate| %>
+          <p>
+            <%= link_to candidate.name, candidate_path(candidate.id) %>
+            <%= candidate.vote %>
+            <a class="btn disabled" onclick="Materialize.toast('ログインしてください', 4000)">投票</a>
+          </p>
+      <% end %>
+    </div>
+    <div class="divider"></div>
+    <div class="section">
+      <h5>応募する</h5>
+      <button class="waves-effect waves-light btn disabled" onclick="Materialize.toast('ログインしてください', 4000)">応募</button>
+    </div>
+<% end %>
+
+
+
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function(){
+        $('.modal-trigger').leanModal();
+    });
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+</script>

@@ -7,4 +7,9 @@ json.invitation do
   json.longitude  @invitation.longitude
   json.note       @invitation.note
   json.end_date   @invitation.end_date
+  json.voters @users do |voter|
+    json.user_id             voter.id
+    json.name           voter.name
+    json.vote_time      voter.vote_time
+  end
 end

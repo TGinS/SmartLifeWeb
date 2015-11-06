@@ -1,3 +1,10 @@
+
+<% flash.each do |key, value| %>
+    <script>
+        Materialize.toast("<%= value %>", 4000)
+    </script>
+<% end %>
+
 <p><h2>応募</h2></p>
 <div class="divider"></div>
 <div class="section">
@@ -21,7 +28,16 @@
 </div>
 <div class="divider"></div>
 <div class="section">
-  <h5>いいね</h5>
+  <h5>投票する</h5>
+  <%= form_for(CandidateVote.new,:url=>{:controller=>'candidate_vote', :action=>'create', :method=>'post'}) do |f| %>
+      <%= f.hidden_field :candidate_id, :value=>@candidate.id %>
+      <%= f.hidden_field :user_id, :value=>current_user.id %>
+      <%= f.submit %>
+  <% end %>
+</div>
+<div class="divider"></div>
+<div class="section">
+  <h5>投票</h5>
   <%@users.each_with_index do |user, i| %>
       <p>
         <%= i + 1 %>:<%= user.name %>

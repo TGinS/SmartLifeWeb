@@ -1,157 +1,278 @@
 
+<% flash.each do |key, value| %>
+    <script>
+        Materialize.toast("<%= value %>", 4000)
+    </script>
+<% end %>
+
 <div id="map_canvas"></div>
 
-<a class="btn-floating btn-large waves-effect waves-light red modal-trigger" href="#pushpin" style="position: fixed;bottom: 40px;right: 45px">
-  <i class="mdi-content-add"></i>
-</a>
+<% if user_signed_in? %>
+    <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+      <a class="btn-floating btn-large red">
+        <i class="large material-icons">mode_edit</i>
+      </a>
+      <ul>
+        <li><a class="btn-floating red modal-trigger tooltipped" data-position="left" data-delay="10" data-tooltip="「募集」を追加" href="#modal_invitation"><i class="material-icons">mode_edit</i></a></li>
+        <li><a class="btn-floating yellow darken-1 modal-trigger tooltipped" data-position="left" data-delay="10" data-tooltip="「提供」を追加" href="#modal_provision"><i class="material-icons">mode_edit</i></a></li>
+      </ul>
+    </div>
 
-<div id="pushpin" class="modal">
-  <div class="modal-footer">
-    <button class="modal-action modal-close btn waves-effect waves-light" >
-      submit<i class="mdi-content-send right"></i>
-    </button>
-  </div>
-</div>
+    <div id="modal_invitation" class="modal">
+      <%= form_for(Invitation.new, :url=>{:controller=>'invitation',:action=>'create',:method=>'post'}) do |f| %>
+      <div class="modal-content">
+        <h4>募集</h4>
+        <div class="row">
+          <div class="input-field col s6">
+            <%= f.text_field :name, :id=>"name", :placeholder=>"subject" %>
+            <label for="name">name</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <%= f.collection_select :invitation_type_id, InvitationType.all, :id, :name %>
+            <label for="invitation_type">区分</label>
+          </div>
+        </div>
+        <%= f.hidden_field :user_id, :value=>current_user.id %>
+        <div class="row">
+          <div class="input-field col s6">
+            <i class="mdi-navigation-more-horiz prefix"></i>
+            <%= f.text_field :latitude, :placeholder => "", :value => "", :id => "invitation_y", :readonly => true, :class => "validate" %>
+            <label for="latitude">緯度</label>
+          </div>
+          <div class="input-field col s6">
+            <i class="mdi-navigation-more-vert prefix"></i>
+            <%= f.text_field :longitude, :placeholder => "", :value => "", :id => "invitation_x", :readonly => true, :class => "validate" %>
+            <label for="longitude">経度</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <i class="material-icons prefix">mode_edit</i>
+            <%= f.text_area :note, :id=>"note", :placeholder=>"詳細", :class=>"materialize-textarea" %>
+            <label for="note">note</label>
+          </div>
+        </div>
+        <%= f.hidden_field :end_date, :value=>nil %>
+      </div>
+      <div class="modal-footer">
+        <%= f.button class: "modal-action modal-close waves-effect waves-light btn light-blue darken-3" do %>
+            送信<i class="material-icons right">send</i>
+        <% end %>
+      </div>
+      <% end %>
+    </div>
+
+    <div id="modal_provision" class="modal">
+      <%= form_for(Provision.new, :url=>{:controller=>'provision',:action=>'create',:method=>'post'}) do |f| %>
+      <div class="modal-content">
+        <h4>提供</h4>
+        <div class="row">
+          <div class="input-field col s6">
+            <i class="material-icons prefix">mode_edit</i>
+            <%= f.text_field :name, :id=>"name", :placeholder=>"subject" %>
+            <label for="name">name</label>
+          </div>
+        </div>
+        <%= f.hidden_field :user_id, :value=>current_user.id %>
+        <div class="row">
+          <div class="input-field col s6">
+            <i class="mdi-navigation-more-horiz prefix"></i>
+            <%= f.text_field :latitude, :placeholder => "", :value => "", :id => "provision_y", :readonly => true, :class => "validate" %>
+            <label for="latitude">緯度</label>
+          </div>
+          <div class="input-field col s6">
+            <i class="mdi-navigation-more-vert prefix"></i>
+            <%= f.text_field :longitude, :placeholder => "", :value => "", :id => "provision_x", :readonly => true, :class => "validate" %>
+            <label for="longitude">経度</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <i class="material-icons prefix">mode_edit</i>
+            <%= f.text_area :note, :id=>"note", :placeholder=>"詳細", :class=>"materialize-textarea" %>
+            <label for="note">note</label>
+          </div>
+        </div>
+        <%= f.hidden_field :end_date, :value=>nil %>
+      </div>
+      <div class="modal-footer">
+        <%= f.button class: "modal-action modal-close waves-effect waves-light btn light-blue darken-3" do %>
+            送信<i class="material-icons right">send</i>
+        <% end %>
+      </div>
+      <% end %>
+    </div>
+
+<% else %>
+    <a class="btn-floating btn-large waves-effect waves-light disabled" onclick="Materialize.toast('ログインしてください', 4000)" style="position: fixed;bottom: 45px;right: 24px">
+      <i class="large material-icons">mode_edit</i>
+    </a>
+<% end %>
+
+
 
 <script type="text/javascript">
-    function initialize() {
-        var latlng = new google.maps.LatLng(34.72166180618469, 137.73993516406247);
-        var opts = {
-            zoom: 13,
-            center: latlng,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            navigationControlOptions: {
-                position: google.maps.ControlPosition.TOP_RIGHT
-            },
-            scaleControlOptions: {
-                position: google.maps.ControlPosition.TOP_LEFT
-            }
-        };
-        var map = new google.maps.Map(document.getElementById("map_canvas"), opts);
+    var map_x = null;
+    var map_y = null;
 
-        // set style options
-        var styleOptions =　[
-            {
-                "featureType": "landscape",
-                "stylers": [
-                    {
-                        "saturation": -100
-                    },
-                    {
-                        "lightness": 65
-                    },
-                    {
-                        "visibility": "on"
-                    }
-                ]
-            },
-            {
-                "featureType": "poi",
-                "stylers": [
-                    {
-                        "saturation": -100
-                    },
-                    {
-                        "lightness": 51
-                    },
-                    {
-                        "visibility": "simplified"
-                    }
-                ]
-            },
-            {
-                "featureType": "road.highway",
-                "stylers": [
-                    {
-                        "saturation": -100
-                    },
-                    {
-                        "visibility": "simplified"
-                    }
-                ]
-            },
-            {
-                "featureType": "road.arterial",
-                "stylers": [
-                    {
-                        "saturation": -100
-                    },
-                    {
-                        "lightness": 30
-                    },
-                    {
-                        "visibility": "on"
-                    }
-                ]
-            },
-            {
-                "featureType": "road.local",
-                "stylers": [
-                    {
-                        "saturation": -100
-                    },
-                    {
-                        "lightness": 40
-                    },
-                    {
-                        "visibility": "on"
-                    }
-                ]
-            },
-            {
-                "featureType": "transit",
-                "stylers": [
-                    {
-                        "saturation": -100
-                    },
-                    {
-                        "visibility": "simplified"
-                    }
-                ]
-            },
-            {
-                "featureType": "administrative.province",
-                "stylers": [
-                    {
-                        "visibility": "off"
-                    }
-                ]
-            },
-            {
-                "featureType": "water",
-                "elementType": "labels",
-                "stylers": [
-                    {
-                        "visibility": "on"
-                    },
-                    {
-                        "lightness": -25
-                    },
-                    {
-                        "saturation": -100
-                    }
-                ]
-            },
-            {
-                "featureType": "water",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "hue": "#ffff00"
-                    },
-                    {
-                        "lightness": -25
-                    },
-                    {
-                        "saturation": -97
-                    }
-                ]
-            }
-        ]
-        var styledMapOptions = { name: 'NCF'}
-        var type = new google.maps.StyledMapType(styleOptions, styledMapOptions);
-        map.mapTypes.set('map', type);
-        map.setMapTypeId('map');
+    var latlng = new google.maps.LatLng(34.72166180618469, 137.73993516406247);
+    var opts = {
+        zoom: 13,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        navigationControlOptions: {
+            position: google.maps.ControlPosition.TOP_RIGHT
+        },
+        scaleControlOptions: {
+            position: google.maps.ControlPosition.TOP_LEFT
+        }
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"), opts);
+
+    // set style options
+    var styleOptions =　[
+        {
+            "featureType": "landscape",
+            "stylers": [
+                {
+                    "saturation": -100
+                },
+                {
+                    "lightness": 65
+                },
+                {
+                    "visibility": "on"
+                }
+            ]
+        },
+        {
+            "featureType": "poi",
+            "stylers": [
+                {
+                    "saturation": -100
+                },
+                {
+                    "lightness": 51
+                },
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "stylers": [
+                {
+                    "saturation": -100
+                },
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "road.arterial",
+            "stylers": [
+                {
+                    "saturation": -100
+                },
+                {
+                    "lightness": 30
+                },
+                {
+                    "visibility": "on"
+                }
+            ]
+        },
+        {
+            "featureType": "road.local",
+            "stylers": [
+                {
+                    "saturation": -100
+                },
+                {
+                    "lightness": 40
+                },
+                {
+                    "visibility": "on"
+                }
+            ]
+        },
+        {
+            "featureType": "transit",
+            "stylers": [
+                {
+                    "saturation": -100
+                },
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "administrative.province",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "water",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "on"
+                },
+                {
+                    "lightness": -25
+                },
+                {
+                    "saturation": -100
+                }
+            ]
+        },
+        {
+            "featureType": "water",
+            "elementType": "geometry",
+            "stylers": [
+                {
+                    "hue": "#ffff00"
+                },
+                {
+                    "lightness": -25
+                },
+                {
+                    "saturation": -97
+                }
+            ]
+        }
+    ]
+    var styledMapOptions = { name: 'NCF'}
+    var type = new google.maps.StyledMapType(styleOptions, styledMapOptions);
+    map.mapTypes.set('map', type);
+    map.setMapTypeId('map');
+
+    function initialize() {
+
+        //センターマーカー
+        var markerCenter = new google.maps.Marker({
+            position: map.getCenter(),
+            map: map,
+            icon: "https://pbs.twimg.com/media/CTInlhkWcAAql_0.png"
+        });
+
+        // get center latlng
+        google.maps.event.addListener(map, 'center_changed', function(event){
+            center = map.getCenter();
+            $("#invitation_x").val( center.lng() );
+            $("#invitation_y").val( center.lat() );
+            $("#provision_x").val( center.lng() );
+            $("#provision_y").val( center.lat() );
+            markerCenter.setPosition(center)
+        });
 
         // window & marker
         var window = new google.maps.InfoWindow();
