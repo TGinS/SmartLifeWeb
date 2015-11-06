@@ -9,4 +9,8 @@ class ProvisionController < ApplicationController
     @candidates = Candidate.joins(:candidate_votes).select("candidates.id, candidates.name, COUNT(candidate_votes.candidate_id) AS vote").where("provision_id = ?", params[:id]).group("candidates.id, candidates.name,candidate_votes.candidate_id")
   end
 
+  def create
+    redirect_to root_path
+  end
+
 end

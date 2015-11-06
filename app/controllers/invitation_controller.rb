@@ -8,4 +8,8 @@ class InvitationController < ApplicationController
     @invitation = Invitation.joins(:user, :invitation_type).select("invitations.*, users.name AS user_name,  invitation_types.name AS type_name").find(params[:id])
   end
 
+  def create
+
+  end
+
 end
