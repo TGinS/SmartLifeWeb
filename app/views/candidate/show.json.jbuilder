@@ -7,7 +7,7 @@ json.candidate do
   json.note           @candidate.note
   json.end_date       @candidate.end_date
   json.voters @users do |voter|
-    json.id             voter.id
+    json.user_id             voter.id
     json.name           voter.name
     json.vote_time      voter.vote_time
   end

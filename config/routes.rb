@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   root 'welcome#index'
   resources :invitation,           :only => [:index,:show,:create] do
   end
+  resources :invitation_vote,      :only => [:create] do
+  end
   resources :provision,            :only => [:index,:show,:create] do
     resources :candidate, params: :provision_id, :only => [:index]
   end
