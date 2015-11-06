@@ -10,7 +10,13 @@ class ProvisionController < ApplicationController
   end
 
   def create
-    redirect_to root_path
+    provision = params.require(:provision).permit(:name,:user_id,:latitude,:longitude,:note,:end_date)
+    provision = Provision.new(provision)
+    if provision.save
+      redirect_to :back, :flash=>{:result=>"追加しました"}
+    else
+      redirect_to :back, :flash=>{:result=>"追加に失敗しました"}
+    end
   end
 
 end

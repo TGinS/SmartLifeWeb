@@ -13,9 +13,17 @@ class CandidateController < ApplicationController
 
 
   def create
-    candidate = params.require(:candidate).permit(:name,:user_id,:provision_id,:note)
-    candidate = Candidate.create(candidate)
-    redirect_to root_path
+    candidate = params.require(:candidate).permit(:name,:provision_id,:user_id,:note,:end_date)
+    candidate = Candidate.new(candidate)
+    if candidate.save
+      # vote yourself
+      candidate_vote = CandidateVote.new(:candidate_id=>candidate.id,:user_id=>current_user.id)
+      if candidate_vote.save
+        redirect_to :back, :flash=>{:result=>"応募しました"}
+      end
+    else
+      redirect_to :back, :flash=>{:result=>"応募に失敗しました"}
+    end
   end
 
 end

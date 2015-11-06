@@ -1,3 +1,10 @@
+
+<% flash.each do |key, value| %>
+    <script>
+        Materialize.toast("<%= value %>", 4000)
+    </script>
+<% end %>
+
 <p><h2>応募</h2></p>
 <div class="divider"></div>
 <div class="section">

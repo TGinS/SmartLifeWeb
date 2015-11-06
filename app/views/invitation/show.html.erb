@@ -1,3 +1,10 @@
+
+<% flash.each do |key, value| %>
+    <script>
+        Materialize.toast("<%= value %>", 4000)
+    </script>
+<% end %>
+
 <p>
     <div style="font-size:30px;">
         募集
@@ -21,15 +28,24 @@
   <h5>メモ</h5>
   <p><%= @invitation.note %></p>
 </div>
+<% if user_signed_in? %>
+    <div class="divider"></div>
+    <div class="section">
+      <h5>投票する</h5>
+      <%= form_for(InvitationVote.new,:url=>{:controller=>'invitation_vote', :action=>'create', :method=>'post'}) do |f| %>
+          <%= f.hidden_field :invitation_id, :value=>@invitation.id %>
+          <%= f.hidden_field :user_id, :value=>current_user.id %>
+          <%= f.submit %>
+      <% end %>
+    </div>
+<% else %>
+    <div class="divider"></div>
+    <div class="section">
+      <h5>投票する</h5>
+      <button class="waves-effect waves-light btn disabled" onclick="Materialize.toast('ログインしてください', 4000)">投票</button>
+    </div>
+<% end %>
 <div class="divider"></div>
-<div class="section">
-  <h5>投票する</h5>
-  <%= form_for(InvitationVote.new,:url=>{:controller=>'invitation_vote', :action=>'create', :method=>'post'}) do |f| %>
-      <%= f.hidden_field :invitation_id, :value=>@invitation.id %>
-      <%= f.hidden_field :user_id, :value=>current_user.id %>
-      <%= f.submit %>
-  <% end %>
-</div>
 <div class="section">
   <h5>投票</h5>
   <%@users.each_with_index do |user, i| %>
@@ -38,3 +54,4 @@
       </p>
   <% end %>
 </div>
+
