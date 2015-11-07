@@ -80,12 +80,12 @@
           <div class="input-field col s6">
             <i class="mdi-navigation-more-horiz prefix"></i>
             <%= f.text_field :latitude, :placeholder => "", :value => "", :id => "provision_y", :readonly => true, :class => "validate" %>
-            <label for="latitude">緯度</label>
+            <label for="provision_y">緯度</label>
           </div>
           <div class="input-field col s6">
             <i class="mdi-navigation-more-vert prefix"></i>
             <%= f.text_field :longitude, :placeholder => "", :value => "", :id => "provision_x", :readonly => true, :class => "validate" %>
-            <label for="longitude">経度</label>
+            <label for="provision_x">経度</label>
           </div>
         </div>
         <div class="row">
@@ -265,6 +265,11 @@
         });
 
         // get center latlng
+        center = map.getCenter();
+        $("#invitation_x").val( center.lng() );
+        $("#invitation_y").val( center.lat() );
+        $("#provision_x").val( center.lng() );
+        $("#provision_y").val( center.lat() );
         google.maps.event.addListener(map, 'center_changed', function(event){
             center = map.getCenter();
             $("#invitation_x").val( center.lng() );

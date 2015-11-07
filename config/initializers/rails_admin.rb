@@ -147,7 +147,7 @@ RailsAdmin.config do |config|
     label "募集への投票"
     label_plural "募集への投票"
     list do
-      field :invitation do
+      field :candidate do
         label "募集"
       end
       field :user do
@@ -155,7 +155,7 @@ RailsAdmin.config do |config|
       end
     end
       edit do
-        field :invitation do
+        field :candidate do
           label "募集"
         end
       field :user do

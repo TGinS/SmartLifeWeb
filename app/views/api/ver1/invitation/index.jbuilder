@@ -7,5 +7,4 @@ json.invitations @invitations do |invitation|
   json.longitude  invitation.longitude
   json.note       invitation.note
   json.end_date   invitation.end_date
-  json.url invitation_url(invitation)
 end

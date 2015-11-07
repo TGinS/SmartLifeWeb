@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :candidate do
+  factory :a_candidate do
     name "MyString"
 provision nil
 user nil

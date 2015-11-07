@@ -1,8 +1,5 @@
 class InvitationController < ApplicationController
 
-  def index
-    @invitations = Invitation.joins(:user, :invitation_type).select("invitations.*, users.name AS user_name, invitation_types.name AS type_name")
-  end
 
   def show
     @invitation = Invitation.joins(:user, :invitation_type).select("invitations.*, users.name AS user_name,  invitation_types.name AS type_name").find(params[:id])
@@ -10,7 +7,7 @@ class InvitationController < ApplicationController
   end
 
   def create
-    invitation = params.require(:invitation).permit(:name,:invitation_type_id,:user_id,:latitude,:longitude,:note,:end_date)
+    invitation = params.require(:candidate).permit(:name,:invitation_type_id,:user_id,:latitude,:longitude,:note,:end_date)
     invitation = Invitation.new(invitation)
     if invitation.save
       redirect_to :back, :flash=>{:result=>"追加しました"}

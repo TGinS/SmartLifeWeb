@@ -1,12 +1,11 @@
 Rails.application.routes.draw do
 
   root 'welcome#index'
-  resources :invitation,           :only => [:index,:show,:create] do
+  resources :invitation,           :only => [:show,:create] do
   end
   resources :invitation_vote,      :only => [:create] do
   end
-  resources :provision,            :only => [:index,:show,:create] do
-    resources :candidate, params: :provision_id, :only => [:index]
+  resources :provision,            :only => [:show,:create] do
   end
   resources :candidate,            :only => [:show,:create] do
   end
@@ -15,6 +14,8 @@ Rails.application.routes.draw do
   resources :account,              :only => [:index] do
     get :edit,    :on => :collection
   end
+
+  mount API::Root => '/'
 
   devise_for :users
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
