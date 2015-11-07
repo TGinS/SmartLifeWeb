@@ -34,6 +34,28 @@ module API
           @users = ::User.joins(:candidate_votes).select("users.*, candidate_votes.created_at AS vote_time").where("candidate_votes.candidate_id = ?", params[:id])
         end
 
+        # Post /api/ver1/candidate
+        desc 'Create a Candidate.'
+        params do
+          requires :name,           type: String,   desc: 'Candidate name.'
+          requires :provision_id,   type: Integer,    desc: 'Provision id. Parent of candidate.'
+          requires :note,           type: String,   desc: 'Candidate note.'
+        end
+        post '', jbuilder: 'candidate/create'  do
+          authenticate_user!
+          candidate = ::Candidate.create({  name:         params[:name],
+                                            provision_id: params[:provision_id],
+                                            user_id:      @user.id,
+                                            note:         params[:note],
+                                            end_date:     nil
+                                         })
+          if candidate.save
+            @result= "success"
+          else
+            @result= "Failed"
+          end
+        end
+
       end
 
     end
