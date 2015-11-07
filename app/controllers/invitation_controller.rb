@@ -7,7 +7,7 @@ class InvitationController < ApplicationController
   end
 
   def create
-    invitation = params.require(:candidate).permit(:name,:invitation_type_id,:user_id,:latitude,:longitude,:note,:end_date)
+    invitation = params.require(:invitation).permit(:name,:invitation_type_id,:user_id,:latitude,:longitude,:note,:end_date)
     invitation = Invitation.new(invitation)
     if invitation.save
       redirect_to :back, :flash=>{:result=>"追加しました"}
