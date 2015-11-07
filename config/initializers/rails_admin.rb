@@ -32,6 +32,72 @@ RailsAdmin.config do |config|
     # history_show
   end
 
+  config.model User do
+    label "ユーザ"
+    label_plural "ユーザ"
+    list do
+      field :id do
+        label "id"
+      end
+      field :uid do
+        label "ユーザID"
+      end
+      field :provider do
+        label "登録サービス"
+      end
+      field :name do
+        label ""
+      end
+      field :email do
+        label "メールアドレス"
+      end
+      field :image do
+        label "画像"
+      end
+      field :website do
+        label "website"
+      end
+      field :admin do
+        label "admin"
+      end
+      field :password do
+        label "password"
+      end
+      field :note do
+        label "詳細"
+      end
+      field :tokens do
+        label "token"
+      end
+    end
+    edit do
+      field :name do
+        label ""
+      end
+      field :email do
+        label "メールアドレス"
+      end
+      field :image do
+        label "画像"
+      end
+      field :website do
+        label "website"
+      end
+      field :admin do
+        label "admin"
+      end
+      field :password do
+        label "password"
+      end
+      field :password_confirmation do
+        label "password確認"
+      end
+      field :note do
+        label "詳細"
+      end
+    end
+  end
+
   config.model Invitation do
     label "募集"
     label_plural "募集"
@@ -224,61 +290,5 @@ RailsAdmin.config do |config|
     end
   end
 
-  config.model User do
-    label "ユーザ"
-    label_plural "ユーザ"
-    list do
-      field :name do
-        label "ユーザ名"
-      end
-      field :email do
-        label "メールアドレス"
-      end
-      field :website do
-        label "Webサイト"
-      end
-      field :password do
-        label "パスワード"
-      end
-      field :password_confirmation do
-        label "パスワード確認"
-      end
-      field :admin do
-        label "管理者"
-      end
-      field :note do
-        label "自己紹介"
-      end
-      field :authentication_token do
-        label "認証トークン"
-      end
-    end
-    edit do
-      field :name do
-        label "ユーザ名"
-      end
-      field :email do
-        label "メールアドレス"
-      end
-      field :website do
-        label "Webサイト"
-      end
-      field :password do
-        label "パスワード"
-      end
-      field :password_confirmation do
-        label "パスワード確認"
-      end
-      field :admin do
-        label "管理者"
-      end
-      field :note do
-        label "自己紹介"
-      end
-      field :authentication_token do
-        label "認証トークン"
-      end
-    end
-  end
 
 end

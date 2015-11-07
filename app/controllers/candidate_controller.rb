@@ -1,10 +1,5 @@
 class CandidateController < ApplicationController
 
-  before_action :authenticate_user!, only:[:create]
-
-  def index
-    @candidates = Candidate.joins(:user).select("candidates.*, users.name AS user_name").where("provision_id =?",params[:provision_id])
-  end
 
   def show
     @candidate = Candidate.joins(:user, :provision).select("candidates.*, users.name AS user_name, provisions.name AS provision_name").find(params[:id])

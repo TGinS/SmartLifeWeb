@@ -1,5 +1,6 @@
 class CandidateVoteController < ApplicationController
 
+
   def create
     vote = params.require(:candidate_vote).permit(:candidate_id, :user_id)
     candidate_vote = CandidateVote.new(vote)

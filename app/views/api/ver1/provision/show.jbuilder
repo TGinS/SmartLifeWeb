@@ -10,6 +10,5 @@ json.provision do
     json.id         candidate.id
     json.name       candidate.name
     json.vote       candidate.vote
-    json.url        candidate_url(candidate)
   end
 end

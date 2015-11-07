@@ -24,6 +24,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'devise'
 gem 'rails_admin'
 gem 'cancancan'
+gem 'devise_token_auth'
+gem 'grape'
+gem 'grape-jbuilder'
+gem 'omniauth'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
