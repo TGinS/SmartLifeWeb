@@ -50,7 +50,11 @@ module API
                                             end_date:     nil
                                          })
           if candidate.save
-            @result= "success"
+            # vote yourself
+            candidate_vote = ::CandidateVote.create(:candidate_id=>candidate.id,:user_id=>@user.id)
+            if candidate_vote.save
+              @result= "success"
+            end
           else
             @result= "Failed"
           end
