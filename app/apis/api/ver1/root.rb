@@ -5,6 +5,7 @@ module API
       version 'ver1'
       format :json
 
+      mount API::Ver1::Account
       mount API::Ver1::Provision
       mount API::Ver1::Invitation
       mount API::Ver1::InvitationVote
